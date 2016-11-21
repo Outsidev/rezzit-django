@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Rezzit!</title>
+  </head>
+  <body>
+    <h1>By the NINE!</h1>
+    <p>
+      You criminal <b>scum!</b> You violeted the lAW!
+    </p>
+    <div class="posts">
+    {% for post in posts %}
+      <div class="post-box">
+        <div class="post-points">Points:{{post.points}}</div>
+        <div class="post-title">{{post.title}}</div>
+        <div class="post-date"> {{post.published_date}}</div>
+        <div class="post-username">{{post.username}}</div>
+        <div class="post-comments">Comments: 12</div>
+      </div>
+    {% endfor%}
+    </div>
+  </body>
+</html>
