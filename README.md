@@ -1,2 +1,3 @@
 # rezzit-django
-Simple Reddit clone using ~ django.
+Simple Reddit clone using django.
+~On development.
