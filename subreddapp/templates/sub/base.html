@@ -1,16 +1,26 @@
-{% load staticfiles %}
+{% load static %}
 <html>
-    <head>
-        <title>Rezzit!</title>
+    <head>        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <title>{% block title %}Rezzit{% endblock %}</title>
     </head>
 
     <body>
-        <div class="content container">
+
+    <div class="main-header">
+        <h2>Rezzit!</h2>
+        <ul class="header-menu">
+            <li><a href=""> News  </a></li>
+            <li><a href=""> Hots  </a></li>
+            <li><a href=""> About </a></li>
+        </ul>
+    </div>    
+    <div class="content">             
         {% block content %} 
         {% endblock %}
-        </div>
+    </div>
+    
     </body>
 
 </html>

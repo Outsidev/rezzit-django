@@ -1,12 +1,9 @@
 {% extends 'sub/base.html' %}
 
+{% block title %} Rezzit! {% endblock%}
+
 {% block content %}
-  <div class="row">
-    <div class="main-header">
-      <h2>Rezzit!</h2>
-    </div>
-  </div>  
-  <div class="posts row">
+  <div class="row posts">
       {% for post in posts %}
         {% include 'sub/post_box.html' %}
       {% endfor%}

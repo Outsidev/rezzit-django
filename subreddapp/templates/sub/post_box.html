@@ -1,10 +1,15 @@
+{% load static %}
+
 <div class="post-box">
-    <div class="post-point-box">
-        <div class="up-arrow"></div>
+    {% if not inside_comment %}
+    <div class="post-counter">{{forloop.counter}}.</div>
+    {% endif %}    
+    <div class="post-point-box" {{ inside_comment|yesno:",id=ppb-center" }}>
+        <div class="point-arrow" id="up-arrow"></div>     
         <div class="post-point text-center">{{post.points}}</div>
-        <div class="down-arrow"></div>
+        <div class="point-arrow" id="down-arrow"></div>
     </div>
-    <div class="post-image"></div>
+    <div class="post-image"><image src="{% static 'icons/play.png' %}"></image></div>
     <div class="post-info">
         <h4 class="post-title"><a href="{{post.link_adress}}">{{post.title}}</a></h4>
         <div>
