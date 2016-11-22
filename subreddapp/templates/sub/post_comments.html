@@ -1,0 +1,7 @@
+{% extends 'sub/base.html' %}
+
+{% block content %}
+    <div class="row">
+        {% include 'sub/post_box.html' with inside_comment=True %}
+    </div>
+{% endblock %}

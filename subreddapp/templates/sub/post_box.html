@@ -1,0 +1,21 @@
+<div class="post-box">
+    <div class="post-point-box">
+        <div class="up-arrow"></div>
+        <div class="post-point text-center">{{post.points}}</div>
+        <div class="down-arrow"></div>
+    </div>
+    <div class="post-image"></div>
+    <div class="post-info">
+        <h4 class="post-title"><a href="{{post.link_adress}}">{{post.title}}</a></h4>
+        <div>
+        <a class="post-username">by {{post.username}}</a>
+        <time class="post-date">at {{post.published_date}}</time>
+        </div>
+        {% if inside_comment is True %}
+            <div class="post-text">Senbonzakura level Shit.</div>
+        {% endif %}
+        <div class="post-comment-count">
+            <a href="{% url 'post_comments' pk=post.pk %}"> 12 comments </a>
+        </div>
+    </div>
+</div>
