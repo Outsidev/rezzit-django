@@ -21,6 +21,7 @@ a{
     margin: 5px;
     margin-left: 20px;
     color: white;
+    text-shadow: 0px 5px 10px black;
 }
 
 .header-menu{
@@ -118,5 +119,9 @@ a:hover{
     margin: 10px;
     margin-bottom: 5px;
     border-bottom: 1px solid grey;
+}
 
+.comment-form{
+    width: 400px;
+    display: inline-block;
 }

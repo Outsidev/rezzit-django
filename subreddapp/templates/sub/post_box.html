@@ -17,10 +17,11 @@
         <time class="post-date">at {{post.published_date}}</time>
         </div>
         {% if inside_comment is True %}
-            <div class="post-text">Senbonzakura level Shit.</div>
+            <div class="post-text">{{post.text}}</div>
         {% endif %}
-        <div class="post-comment-count">
-            <a href="{% url 'post_comments' pk=post.pk %}"> 12 comments </a>
+        <div class="post-comment-count">           
+            <a href="{% url 'comments_page' pk=post.pk %}"> {{comment_count}} comments 
+            </a>
         </div>
     </div>
 </div>

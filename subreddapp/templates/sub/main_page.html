@@ -5,7 +5,7 @@
 {% block content %}
   <div class="row posts">
       {% for post in posts %}
-        {% include 'sub/post_box.html' %}
+        {% include 'sub/post_box.html' with comment_count=post.comment_counts %}
       {% endfor%}
   </div>
 {% endblock %}

@@ -9,11 +9,11 @@
     <body>
 
     <div class="main-header">
-        <h2>Rezzit!</h2>
+        <h2><a href="{% url 'main_page' %}">Rezzit!</a></h2>
         <ul class="header-menu">
-            <li><a href=""> News  </a></li>
-            <li><a href=""> Hots  </a></li>
-            <li><a href=""> About </a></li>
+            <li><a href="{% url 'main_page_news' %}"> News  </a></li>
+            <li><a href="{% url 'main_page_tops' %}"> Tops  </a></li>
+            <li><a href="{% url 'main_page_hots' %}"> Hots </a></li>
         </ul>
     </div>    
     <div class="content">             
