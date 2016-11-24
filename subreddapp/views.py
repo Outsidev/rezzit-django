@@ -1,7 +1,9 @@
 from django.shortcuts import render,get_object_or_404
 from django.utils import timezone
 from django.db.models import Count
-from .models import Post,Comment
+from django.http import HttpResponse
+
+from .models import PostParent,Post,Comment
 from .forms import CommentForm
 
 # Create your views here.
@@ -44,3 +46,23 @@ def send_comment(request):
         form = CommentForm()
     
     return HttpResponseRedirect('/')
+
+def give_point(request):
+    if request.method == 'GET':
+        obj_id = request.GET['post_id']
+        arrow_dir = request.GET['arrow_dir']
+        what_type = request.GET['what_type']
+        obj = None
+
+        if what_type == "post":
+            obj = Post.objects.get(pk=int(obj_id))
+        elif what_type == "comment":                
+            obj = Comment.objects.get(pk=int(obj_id))
+        
+        if obj != None:            
+            if arrow_dir == "true":        
+                obj.point_up()
+            else:
+                obj.point_down()
+
+    return HttpResponse(obj.points)

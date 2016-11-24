@@ -11,9 +11,11 @@
             <textarea class="form-control" rows="5" id="comment-me"></textarea>
             <button class="btn btn-danger btn-sm" type="submit">Send</button>
     </form>
+
     <div class="row comments">        
         {% for comment in comments %}
             {% include 'sub/comment_box.html' %}
         {% endfor%}
     </div>
+    
 {% endblock %}

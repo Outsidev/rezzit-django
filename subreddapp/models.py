@@ -16,12 +16,13 @@ class PostParent(models.Model):
         self.save()
     
     def point_up(self):
-        self.points +=1
-        self.save()
-    
+        self.points +=1                    
+        self.save()    
+
     def point_down(self):
-        self.points -=1
-        self.save()
+        self.points -=1                    
+        self.save()    
+
 
     def __str__(self):
         return self.title

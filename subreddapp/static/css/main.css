@@ -84,12 +84,13 @@ a:hover{
     height: 0;
     border-style: solid;    
     border-color: #F90012 transparent #FE8089 transparent;
+    cursor: hand;
 }
-#up-arrow{
+.up-arrow{
     margin-bottom: 3px;
     border-width: 0 10px 10px 10px;    
 }
-#down-arrow{    
+.down-arrow{    
     margin-top: 3px;
     border-width: 10px 10px 0 10px;    
 }

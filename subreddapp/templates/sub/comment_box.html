@@ -1,12 +1,9 @@
-<div class="post-box">
-    <div class="post-point-box">
-        <div class="point-arrow" id="up-arrow"></div>        
-        <div class="point-arrow" id="down-arrow"></div>
-    </div>
+<div class="post-box" data-type="comment" data-post-id="{{comment.pk}}">
+    {% include 'sub/kids/points_box.html' with comment=True %}
     <div class="post-info">
         <div>
             <a href="">{{comment.username}}</a>
-            <span>{{comment.points}}</span>
+            <span class="post-point">{{comment.points}} points</span>
             <time>{{comment.published_date}}</time>
         </div>
         <div>{{comment.text}}</div>
