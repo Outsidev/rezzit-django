@@ -7,9 +7,10 @@
         {% include 'sub/post_box.html' with inside_comment=True comment_count=comments|length %}
     </div>
 
-    <form method="POST" class="form-group comment-form">
-            <textarea class="form-control" rows="5" id="comment-me"></textarea>
-            <button class="btn btn-danger btn-sm" type="submit">Send</button>
+    <form action="/make_comment/" method="POST" class="form-group" id="comment-form">
+        {% csrf_token %}
+        <textarea class="form-control" rows="5" id="talk-tome"></textarea>
+        <button class="btn btn-danger btn-sm" type="submit">Send</button>
     </form>
 
     <div class="row comments">        

@@ -16,7 +16,7 @@
         <time class="post-date">at {{post.published_date}}</time>
         </div>
         {% if inside_comment is True %}
-            <div class="post-text">{{post.text}}</div>
+            <div class="post-text">{{post.text|linebreaksbr}}</div>
         {% endif %}
         <div class="post-comment-count">           
             <a href="{% url 'comments_page' pk=post.pk %}"> {{comment_count}} comments 

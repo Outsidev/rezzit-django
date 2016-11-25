@@ -1,9 +1,10 @@
 from django.shortcuts import render,get_object_or_404
 from django.utils import timezone
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
+from django.forms.models import model_to_dict
 
-from .models import PostParent,Post,Comment
+from .models import Post,Comment
 from .forms import CommentForm
 
 # Create your views here.
@@ -30,22 +31,19 @@ def comments_page(request, pk):
     comments = post.post_comments.all()
     return render(request, 'sub/comments_page.html', {'post':post,'comments':comments})
 
-def send_comment(request):
-    #not works for now
-    post = get_object_or_404(Post, pk=pk)
-    comments = post.post_comments.all()
-
+def make_comment(request):    
+    response_data = {}
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comm = form.save(commit=false)
-            comm.username = "burk"
-            comm.published_date = timezone.now()
-            comm.save() 
-    else:
-        form = CommentForm()
-    
-    return HttpResponseRedirect('/')
+        text = request.POST.get('text')
+        parentpost_id = request.POST.get('parentpost_id')
+        comm = Comment(text = text, parent_post = Post.objects.get(pk = int(parentpost_id)) ,
+                        username= request.user, published_date = timezone.now())
+        comm.save()
+        #dict_comm = model_to_dict(comm)
+        #return JsonResponse(dict_comm) 
+        return render(request, 'sub/comment_box.html',{'comment':comm})
+
+    return HttpResponse("nope_no_return")
 
 def give_point(request):
     if request.method == 'GET':
