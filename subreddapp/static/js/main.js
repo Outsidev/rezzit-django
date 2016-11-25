@@ -20,6 +20,18 @@ $(document).ready(function(){
         sendComment();
     });
 
+    $('ul.header-menu').on('click', 'li', function(event){
+        event.preventDefault();
+        $('#activated-tab').removeAttr('id');
+        $(this).attr('id','activated-tab');
+        sortway = $(this).attr('id-name');
+        $.get("/"+sortway+"/", function(data){
+            console.log(data);
+            $('.posts').remove();
+            $('.content').append(data);
+        })
+    });
+
     function sendComment(){
         text = $("#talk-tome").val()
         parentpost_id = $(".post-box").first().attr("data-post-id")

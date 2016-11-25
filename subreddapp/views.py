@@ -14,15 +14,15 @@ def main_page(request):
 
 def main_page_news(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-published_date')   
-    return render(request, 'sub/main_page.html', {'posts':posts})
+    return render(request, 'sub/main_page.html', {'posts':posts, 'basehtml':'sub/base_ajax.html'})
 
 def main_page_tops(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-points')   
-    return render(request, 'sub/main_page.html', {'posts':posts})
+    return render(request, 'sub/main_page.html', {'posts':posts, 'basehtml':'sub/base_ajax.html'})
 
 def main_page_hots(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-comment_counts')   
-    return render(request, 'sub/main_page.html', {'posts':posts})
+    return render(request, 'sub/main_page.html', {'posts':posts, 'basehtml':'sub/base_ajax.html'})
 
 
 
@@ -39,8 +39,6 @@ def make_comment(request):
         comm = Comment(text = text, parent_post = Post.objects.get(pk = int(parentpost_id)) ,
                         username= request.user, published_date = timezone.now())
         comm.save()
-        #dict_comm = model_to_dict(comm)
-        #return JsonResponse(dict_comm) 
         return render(request, 'sub/comment_box.html',{'comment':comm})
 
     return HttpResponse("nope_no_return")
