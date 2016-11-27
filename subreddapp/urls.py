@@ -10,5 +10,6 @@ urlpatterns = [
 
     url(r'^give_point/$', views.give_point,name="give_point"),
     url(r'^make_comment/$', views.make_comment, name="make_comment"),
+    url(r'^templates/(?P<template_name>[\w]+)/$',views.get_template),
 
 ]

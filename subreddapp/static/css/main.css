@@ -17,9 +17,12 @@ a{
     flex-direction: row;
     box-shadow: 0px 0px 3px 3px darkred; 
 }
-.main-header h2{    
+.main-header > h2{
     margin: 5px;
+    margin-top: 10px;    
     margin-left: 20px;
+}
+.main-header a{        
     color: white;
     text-shadow: 0px 5px 10px black;
 }
@@ -45,7 +48,9 @@ a{
 .header-menu a{
   color: white;
   padding: 10px;
+  text-decoration: none;
 }
+
 a:hover{
     color: red;   
     text-decoration: none; 
@@ -74,9 +79,6 @@ a:hover{
     flex-direction: column;
     margin : 3px;
     margin-right: 5px;    
-}
-#ppb-center{
-    align-self: center;
 }
 
 .point-arrow{
@@ -113,16 +115,13 @@ a:hover{
 .post-title{
     margin: 0;
 }
-.post-comment-count{
-
-}
 .post-text{
     margin: 10px;
     margin-bottom: 5px;
     border-bottom: 1px solid grey;
 }
 
-#comment-form{
+.comment-form{
     width: 400px;
     display: inline-block;
 }

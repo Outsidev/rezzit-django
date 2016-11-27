@@ -4,14 +4,10 @@
 
 {% block content %}
     <div class="row">
-        {% include 'sub/post_box.html' with inside_comment=True comment_count=comments|length %}
+        {% include 'sub/post_box.html' with inside_comment=True %}
     </div>
 
-    <form action="/make_comment/" method="POST" class="form-group" id="comment-form">
-        {% csrf_token %}
-        <textarea class="form-control" rows="5" id="talk-tome"></textarea>
-        <button class="btn btn-danger btn-sm" type="submit">Send</button>
-    </form>
+    {% include 'sub/kids/make_comment_box.html' %}
 
     <div class="row comments">        
         {% for comment in comments %}

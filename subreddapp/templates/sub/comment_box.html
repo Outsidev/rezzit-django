@@ -7,6 +7,14 @@
             <time>{{comment.published_date}}</time>
         </div>
         <div>{{comment.text|linebreaksbr }}</div>
-        <div> <a href="">Reply</a> </div>
+        <div class="bottom-bar"> 
+            <a class="reply-button">Reply</a> 
+        </div>
+        <div class="child">
+            {% for comment in comment.reply_comments.all %}
+                {% include 'sub/comment_box.html' %}
+            {% endfor%}
+        </div>
     </div>
+    
 </div>

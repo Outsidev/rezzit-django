@@ -1,7 +1,7 @@
 $(document).ready(function(){
     
     $('body').on('click', '.point-arrow', function(event){
-        var parent,id;
+        var parent,id,arrowDir,what_type;
         parent = $(this).closest('.post-box');  
         id = parent.attr('data-post-id');      
         arrowDir = $(this).hasClass('up-arrow');
@@ -14,32 +14,44 @@ $(document).ready(function(){
 
     });
 
-    $('#comment-form').submit(function(event){
-        console.log("SUBMTAI WORKDS!");
-        event.preventDefault();
-        sendComment();
-    });
-
+    
     $('ul.header-menu').on('click', 'li', function(event){
         event.preventDefault();
         $('#activated-tab').removeAttr('id');
         $(this).attr('id','activated-tab');
-        sortway = $(this).attr('id-name');
+        var sortway = $(this).attr('id-name');
         $.get("/"+sortway+"/", function(data){
-            console.log(data);
             $('.posts').remove();
             $('.content').append(data);
         })
+    });    
+
+
+    $('body').on('submit','.comment-form', function(event){        
+        event.preventDefault();
+
+        var text,parentpost_id,parentcomment_id;        
+        text = $(this).parent().find(".talk-tome").val();
+        parentpost_id = $('.post-box').first().attr('data-post-id');        
+        if( $(this).parent().hasClass('child') )
+        {
+            parentcomment_id = $(this).closest('.post-box').attr("data-post-id");
+        }
+        console.log(" // " + parentcomment_id + " // " + parentpost_id)
+        var thisElement = $(this);
+        $.post("/make_comment/", {text:text, parentpost_id:parentpost_id, parentcomment_id:parentcomment_id},
+            function(data){
+                thisElement.parent().append(data);
+                thisElement.remove();                
+            });
     });
 
-    function sendComment(){
-        text = $("#talk-tome").val()
-        parentpost_id = $(".post-box").first().attr("data-post-id")
-        $.post("/make_comment/", {text:text, parentpost_id:parentpost_id},
-            function(data){
-                $(".comments").prepend(data);                
-            });
-    };
+    $('.bottom-bar').on('click','.reply-button', function(event){
+        var child = $(this).closest('.post-info').find('.child');
+        $.get('/templates/make_comment_box/', function(data){
+            child.append(data);
+        });
+    });
 
     //csrf token things
     function getCookie(name) {

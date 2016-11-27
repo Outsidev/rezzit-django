@@ -1,0 +1,5 @@
+<form action="/make_comment/" method="POST" class="form-group comment-form">
+        {% csrf_token %}
+        <textarea class="form-control talk-tome" rows="5"></textarea>
+        <button class="btn btn-danger btn-sm" type="submit">Send</button>
+</form>
