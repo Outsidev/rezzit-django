@@ -1,5 +1,6 @@
 $(document).ready(function(){
     
+    //voting
     $('body').on('click', '.point-arrow', function(event){
         var parent,id,arrowDir,what_type;
         parent = $(this).closest('.post-box');  
@@ -15,6 +16,7 @@ $(document).ready(function(){
     });
 
     
+    //sorting with menu
     $('ul.header-menu').on('click', 'li', function(event){
         event.preventDefault();
         $('#activated-tab').removeAttr('id');
@@ -24,9 +26,9 @@ $(document).ready(function(){
             $('.posts').remove();
             $('.content').append(data);
         })
-    });    
+    });  
 
-
+    //posting comment
     $('body').on('submit','.comment-form', function(event){        
         event.preventDefault();
 
@@ -37,7 +39,6 @@ $(document).ready(function(){
         {
             parentcomment_id = $(this).closest('.post-box').attr("data-post-id");
         }
-        console.log(" // " + parentcomment_id + " // " + parentpost_id)
         var thisElement = $(this);
         $.post("/make_comment/", {text:text, parentpost_id:parentpost_id, parentcomment_id:parentcomment_id},
             function(data){
@@ -46,11 +47,18 @@ $(document).ready(function(){
             });
     });
 
-    $('.bottom-bar').on('click','.reply-button', function(event){
-        var child = $(this).closest('.post-info').find('.child');
-        $.get('/templates/make_comment_box/', function(data){
-            child.append(data);
-        });
+    //reply comment
+    $('.post-box').on('click','.reply-button', function(event){
+        console.log('daepfaf');
+        var child = $(this).closest('.post-info').find('.child').first();
+        var comment_form = child.children('form'); 
+        if(comment_form.length==0){   //if reply box is not opened, add reply box
+            $.get('/templates/make_comment_box/', function(data){
+                child.prepend(data);
+            });
+        }else{
+            comment_form.show();
+        }        
     });
 
     //csrf token things
