@@ -33,7 +33,7 @@ def get_template(request, template_name):
         return Http404
 
 
-def comments_page(request, pk):
+def comments_page(request, pk, slug):
     post = get_object_or_404(Post, pk=pk)
     comment_count = post.post_comments.count()
     comments = post.post_comments.prefetch_related('reply_comments').filter(parent_comment__isnull=True)

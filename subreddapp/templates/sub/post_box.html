@@ -19,7 +19,7 @@
             <div class="post-text">{{post.text|linebreaksbr}}</div>
         {% endif %}
         <div class="post-comment-count">           
-            <a href="{% url 'comments_page' pk=post.pk %}"> {{comment_count}} comments 
+            <a href="{% url 'comments_page' pk=post.pk slug=post.slug %}"> {{comment_count}} comments 
             </a>
         </div>
     </div>
