@@ -36,21 +36,22 @@ def get_template(request, template_name):
 def comments_page(request, pk, slug):
     post = get_object_or_404(Post, pk=pk)
     comment_count = post.post_comments.count()
-    comments = post.post_comments.prefetch_related('reply_comments').filter(parent_comment__isnull=True)
+    comments = post.post_comments.prefetch_related('reply_comments').filter(parent_comment__isnull=True).order_by('-published_date')
     return render(request, 'sub/comments_page.html', {'post':post,'comments':comments, 'comment_count':comment_count})
 
 def make_comment(request):    
-    response_data = {}
     if request.method == 'POST':
         text = request.POST.get('text')
         parentpost_id = int(request.POST.get('parentpost_id'))
+        parent_comment = None
         try:
             parentcomment_id = int(request.POST.get('parentcomment_id'))
+            parent_comment = Comment.objects.get(pk = parentcomment_id)
         except Exception:
-            parentcomment_id = None          
+            parent_comment = None          
 
         comm = Comment(text = text, parent_post = Post.objects.get(pk = parentpost_id), 
-                                    parent_comment = Comment.objects.get(pk = parentcomment_id),
+                                    parent_comment = parent_comment,
                                     username= request.user, published_date = timezone.now())
         comm.save()
         return render(request, 'sub/comment_box.html',{'comment':comm})

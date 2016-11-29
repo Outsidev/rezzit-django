@@ -19,9 +19,22 @@
             <li id-name="hots"><a href="{% url 'main_page_hots' %}"> Hots </a></li>
         </ul>
     </div>    
-    <div class="content">             
-        {% block content %} 
-        {% endblock %}
+    <div class="whole">
+        <div class="content">             
+            {% block content %} 
+            {% endblock %}
+        </div>
+        
+        <div class = "sidebar">            
+            <ul>                
+                <li class="sidebox">
+                    <input class="form-control" type="text">
+                    <input class="form-control" type="text">
+                </li>
+                <li class="sidebox"></li>
+                <li class="sidebox"></li>
+            </ul>
+        </div>    
     </div>
     
     </body>

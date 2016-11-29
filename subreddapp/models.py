@@ -38,8 +38,6 @@ class Comment(PostParent):
     username = models.ForeignKey('auth.User', related_name="user_comments")
     parent_post = models.ForeignKey('Post',related_name="post_comments")
     parent_comment = models.ForeignKey('Comment',related_name="reply_comments",blank=True,null=True)
-    class Meta:
-        ordering = ['-published_date']
 
     def __str__(self):
         return self.text

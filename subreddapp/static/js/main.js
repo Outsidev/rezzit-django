@@ -33,26 +33,36 @@ $(document).ready(function(){
         event.preventDefault();
 
         var text,parentpost_id,parentcomment_id;        
-        text = $(this).parent().find(".talk-tome").val();
-        parentpost_id = $('.post-box').first().attr('data-post-id');        
-        if( $(this).parent().hasClass('child') )
+        textbox = $(this).parent().find(".talk-tome");
+        text = textbox.val();
+        parentpost_id = $('.post-box').first().attr('data-post-id');  
+        childComment = $(this).parent().hasClass('child');       
+        if( childComment )
         {
             parentcomment_id = $(this).closest('.post-box').attr("data-post-id");
         }
+        console.log(childComment);
         var thisElement = $(this);
         $.post("/make_comment/", {text:text, parentpost_id:parentpost_id, parentcomment_id:parentcomment_id},
-            function(data){
-                thisElement.parent().append(data);
-                thisElement.remove();                
+            function(data){                
+                if(childComment){
+                    thisElement.parent().append(data);
+                    thisElement.remove();
+                }else{
+                    $(".comments").prepend(data);
+                    textbox.val("");
+                }                
             });
     });
 
     //reply comment
-    $('.post-box').on('click','.reply-button', function(event){
-        console.log('daepfaf');
+    $('.comments').on('click','.reply-button', function(event){
+        console.log("TIK"); 
         var child = $(this).closest('.post-info').find('.child').first();
-        var comment_form = child.children('form'); 
+        var comment_form = child.children('form');
+        console.log("PAPA:"+comment_form.length); 
         if(comment_form.length==0){   //if reply box is not opened, add reply box
+            console.log("kid:"+comment_form.length); 
             $.get('/templates/make_comment_box/', function(data){
                 child.prepend(data);
             });

@@ -56,10 +56,41 @@ a:hover{
     text-decoration: none; 
 }
 
+.whole{
+    display: flex;
+    flex-direction: row;
+}
+
 .content{
     margin: 15px;
     margin-left: 30px;
+    margin-right: 5px;
+    width: 100%;
 }
+
+.sidebar{
+    float: right;
+    width: 350px;
+    height: 100%;
+    margin: 10px;
+    margin-top: 0px;
+    background: #B32F2C;
+    border-left: 2px solid red;
+    border-right: 2px solid red;
+    box-shadow: 0px 0px 5px black;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebox{
+    height: 100px;
+    margin: 5px;
+    background: greenyellow;    
+}
+.sidebar>ul{
+    margin-top: 10px;
+}
+
 
 .post-box{
     display: flex;
