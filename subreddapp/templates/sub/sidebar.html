@@ -1,0 +1,14 @@
+<div class="sidebar">
+    <ul>
+        <li class="sidebox">
+            <form action="/login/" method="POST" class="form-group">
+                {% csrf_token %}
+                <input class="form-control" type="text">
+                <input class="form-control" type="text">    
+                <button class="btn btn-danger btn-sm" type="submit">Send</button>                
+            </form>            
+        </li>
+        <li class="sidebox"></li>
+        <li class="sidebox"></li>
+    </ul>
+</div>

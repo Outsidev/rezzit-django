@@ -6,12 +6,12 @@ from django.forms.models import model_to_dict
 from django.template import TemplateDoesNotExist
 
 from .models import Post,Comment
-from .forms import CommentForm
+from .forms import CommentForm,UserForm,UserProfileForm
 
 # Create your views here.
 def main_page(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('published_date')   
-    return render(request, 'sub/main_page.html', {'posts':posts})
+    return render(request, 'sub/main_page.html', {'posts':posts, 'form':UserForm()})
 
 def main_page_news(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-published_date')   
@@ -25,6 +25,29 @@ def main_page_hots(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-comment_counts')   
     return render(request, 'sub/main_page.html', {'posts':posts, 'basehtml':'sub/base_ajax.html'})
 
+def login(request):
+    return "Nope"
+
+def register(request):
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+        print(request.POST);
+        print(user_form.is_valid());
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            
+            user.set_password(user.password) #hashing
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            
+            profile.save()
+            registered = True
+            
+    return HttpResponse(registered)
 
 def get_template(request, template_name):
     try:

@@ -4,7 +4,8 @@ ul {
     padding: 0;
 }
 body{
-    
+    display: flex;
+    flex-direction: column;
 }
 a{
     color: black;
@@ -16,6 +17,7 @@ a{
     border-bottom: 2px solid red;
     flex-direction: row;
     box-shadow: 0px 0px 3px 3px darkred; 
+    z-index: 5;
 }
 .main-header > h2{
     margin: 5px;
@@ -91,7 +93,6 @@ a:hover{
     margin-top: 10px;
 }
 
-
 .post-box{
     display: flex;
     margin: 5px;
@@ -155,4 +156,9 @@ a:hover{
 .comment-form{
     width: 400px;
     display: inline-block;
+}
+
+#register-modal .modal-body button{
+    margin-top: 10px;
+    width: 100%;
 }

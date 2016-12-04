@@ -1,13 +1,14 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class PostParent(models.Model):
     text = models.TextField(default="")
     published_date = models.DateTimeField(default=timezone.now)
-    points = models.PositiveIntegerField(default=0)
+    points = models.IntegerField(default=0)
 
     class Meta:
         abstract = True
@@ -25,19 +26,26 @@ class PostParent(models.Model):
         self.save()    
 
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
 class Post(PostParent):
-    username = models.ForeignKey('auth.User', related_name="user_mainposts")
+    username = models.ForeignKey('UserProfile', related_name="user_mainposts")
     link_adress = models.CharField(max_length=200)
     title =  models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True)
     
 class Comment(PostParent):
-    username = models.ForeignKey('auth.User', related_name="user_comments")
+    username = models.ForeignKey('UserProfile', related_name="user_comments")
     parent_post = models.ForeignKey('Post',related_name="post_comments")
     parent_comment = models.ForeignKey('Comment',related_name="reply_comments",blank=True,null=True)
 
     def __str__(self):
         return self.text
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    register_date = models.DateTimeField(default=timezone.now);
+
+    def __unicode__(self):
+        return self.user.username;

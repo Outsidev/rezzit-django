@@ -1,5 +1,6 @@
 $(document).ready(function(){
     
+    //CLICKS
     //voting
     $('body').on('click', '.point-arrow', function(event){
         var parent,id,arrowDir,what_type;
@@ -28,33 +29,6 @@ $(document).ready(function(){
         })
     });  
 
-    //posting comment
-    $('body').on('submit','.comment-form', function(event){        
-        event.preventDefault();
-
-        var text,parentpost_id,parentcomment_id;        
-        textbox = $(this).parent().find(".talk-tome");
-        text = textbox.val();
-        parentpost_id = $('.post-box').first().attr('data-post-id');  
-        childComment = $(this).parent().hasClass('child');       
-        if( childComment )
-        {
-            parentcomment_id = $(this).closest('.post-box').attr("data-post-id");
-        }
-        console.log(childComment);
-        var thisElement = $(this);
-        $.post("/make_comment/", {text:text, parentpost_id:parentpost_id, parentcomment_id:parentcomment_id},
-            function(data){                
-                if(childComment){
-                    thisElement.parent().append(data);
-                    thisElement.remove();
-                }else{
-                    $(".comments").prepend(data);
-                    textbox.val("");
-                }                
-            });
-    });
-
     //reply comment
     $('.comments').on('click','.reply-button', function(event){
         console.log("TIK"); 
@@ -71,7 +45,62 @@ $(document).ready(function(){
         }        
     });
 
-    //csrf token things
+    //SUBMITS
+    //posting comment
+    $('body').on('submit','.comment-form', function(event){        
+        event.preventDefault();
+
+        var text,parentpost_id,parentcomment_id;        
+        textbox = $(this).parent().find(".talk-tome");
+        text = textbox.val();
+        parentpost_id = $('.post-box').first().attr('data-post-id');  
+        childComment = $(this).parent().hasClass('child');       
+        if( childComment )
+        {
+            parentcomment_id = $(this).closest('.post-box').attr("data-post-id");
+        }
+        var thisElement = $(this);
+        $.post("/make_comment/", {text:text, parentpost_id:parentpost_id, parentcomment_id:parentcomment_id},
+            function(data){                
+                if(childComment){
+                    thisElement.parent().append(data);
+                    thisElement.remove();
+                }else{
+                    $(".comments").prepend(data);
+                    textbox.val("");
+                }                
+            });
+    });
+    //register
+    register_ok = false;
+    $('body').on('submit', '.register-form', function(event){
+        event.preventDefault();
+        var username = $(this).children('#username').val();
+        var password = $(this).children('#password').val();
+        var email = $(this).children('#email').val();
+        var thisElement = $(this);
+        $.post('/register/',{username,password,email},
+            function(data){
+                if(data=="True"){
+                    $('#register-modal').modal('toggle',function(){
+                        console.log("fak");
+                    });                                     
+                }else{
+                    console.log("you shall not pass.");
+                    $('.modal-error').html('*Something is not right.');
+                    register_ok = true;
+                    $('#register-modal').modal('toggle');
+                }
+            });
+    })
+    $('#register-modal').on('hidden.bs.modal', function(){        
+        if(register_ok){
+            console.log('reloaded');
+            window.location.reload();
+        }
+    });
+
+    ///CSRF token things
     function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
