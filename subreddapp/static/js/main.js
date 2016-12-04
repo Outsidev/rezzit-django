@@ -72,32 +72,55 @@ $(document).ready(function(){
             });
     });
     //register
-    register_ok = false;
+    var register_ok = false;
     $('body').on('submit', '.register-form', function(event){
         event.preventDefault();
         var username = $(this).children('#username').val();
         var password = $(this).children('#password').val();
-        var email = $(this).children('#email').val();
-        var thisElement = $(this);
+        var email = $(this).children('#email').val();        
         $.post('/register/',{username,password,email},
             function(data){
                 if(data=="True"){
-                    $('#register-modal').modal('toggle',function(){
-                        console.log("fak");
-                    });                                     
+                    register_ok = true;
+                    $('#register-modal').modal('toggle');                                     
                 }else{
                     console.log("you shall not pass.");
-                    $('.modal-error').html('*Something is not right.');
-                    register_ok = true;
-                    $('#register-modal').modal('toggle');
+                    $('.modal-error').html('*Something is not right.');                    
                 }
             });
-    })
+    });
     $('#register-modal').on('hidden.bs.modal', function(){        
         if(register_ok){
             console.log('reloaded');
             window.location.reload();
         }
+    });
+
+    //login
+    $('body').on('submit', '.login-form', function(event){
+        event.preventDefault();
+        var username = $(this).children('#username').val();
+        var password = $(this).children('#password').val();
+        var thisElement = $(this);
+        $.post('/login/', {username,password},
+            function(data){
+                if(data=="True"){
+                    thisElement.children('#send-login').html("Yep.");
+                    window.location.reload();
+                }                    
+                else{
+                    thisElement.children('#send-login').html("Nope.");
+                }
+            });
+    });
+    
+    //logout
+    $('body').on('submit', '.logout-form', function(event){
+        event.preventDefault();
+        $.post('/logout/',
+            function(data){
+                window.location.reload();
+            });
     });
 
     ///CSRF token things

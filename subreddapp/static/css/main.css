@@ -76,6 +76,7 @@ a:hover{
     height: 100%;
     margin: 10px;
     margin-top: 0px;
+    margin-bottom: 0px;
     background: #B32F2C;
     border-left: 2px solid red;
     border-right: 2px solid red;
@@ -83,14 +84,29 @@ a:hover{
     display: flex;
     flex-direction: column;
 }
-
-.sidebox{
-    height: 100px;
-    margin: 5px;
-    background: greenyellow;    
-}
 .sidebar>ul{
     margin-top: 10px;
+}
+.sidebar button {
+    width: 100%;
+}
+.sidebox{
+    padding: 5px;
+    padding-bottom: 10px;
+    margin: 5px;   
+    border: 1px solid darkred;
+    border-radius: 7px;     
+    
+}
+.sidebox .user-login-flair{
+    color: white;
+    text-shadow: 0px 5px 10px black;
+}
+.login-form{
+    margin-bottom: 0px;
+}
+.sidebox button{
+    margin-top: 5px;  
 }
 
 .post-box{

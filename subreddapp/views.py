@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.http import HttpResponse,JsonResponse,Http404
 from django.forms.models import model_to_dict
 from django.template import TemplateDoesNotExist
+from django.contrib.auth import authenticate,login,logout
 
 from .models import Post,Comment
 from .forms import CommentForm,UserForm,UserProfileForm
@@ -25,8 +26,25 @@ def main_page_hots(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-comment_counts')   
     return render(request, 'sub/main_page.html', {'posts':posts, 'basehtml':'sub/base_ajax.html'})
 
-def login(request):
-    return "Nope"
+def login_view(request):
+    logged=False;
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            print("yep1")
+            login(request, user)
+            logged=True
+            
+    return HttpResponse(logged)
+
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        return HttpResponse("logout.")
+    else:
+        return Http404
 
 def register(request):
     registered = False
@@ -46,6 +64,7 @@ def register(request):
             
             profile.save()
             registered = True
+            login(request,user)
             
     return HttpResponse(registered)
 

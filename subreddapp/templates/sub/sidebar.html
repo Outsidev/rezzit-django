@@ -1,14 +1,25 @@
 <div class="sidebar">
     <ul>
         <li class="sidebox">
-            <form action="/login/" method="POST" class="form-group">
-                {% csrf_token %}
-                <input class="form-control" type="text">
-                <input class="form-control" type="text">    
-                <button class="btn btn-danger btn-sm" type="submit">Send</button>                
-            </form>            
+            {% if user.is_authenticated %}
+                <div class="user-login-flair">
+                    <h4 class="text-center">Welcome, {{user.username}}</h4> 
+                    <form action="/logout/" method="GET" class="logout-form">                   
+                        <button class="btn btn-danger btn-sm" id="logout-button" type="submit">Logout</button>
+                    </form>
+                </div>
+            {% else %}            
+                <form action="/login/" method="POST" class="form-group login-form">
+                    {% csrf_token %}
+                    <input class="form-control" id="username" placeholder="Username" type="text" name="username">
+                    <input class="form-control" id="password" placeholder="Password" type="text" name="password">
+                    <button class="btn btn-danger btn-sm" id="send-login" type="submit">Login</button>                                    
+                </form>     
+                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#register-modal">Register</button>
+            {% endif %}                                                             
         </li>
-        <li class="sidebox"></li>
-        <li class="sidebox"></li>
+        <li class="sidebox">            
+            <button class="btn btn-danger btn-sm"><h4>Send New Post</h4></button>
+        </li>        
     </ul>
 </div>
