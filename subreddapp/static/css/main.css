@@ -105,8 +105,9 @@ a:hover{
 .login-form{
     margin-bottom: 0px;
 }
-.sidebox button{
-    margin-top: 5px;  
+.sidebox button,a{
+    margin-top: 5px;
+    width: 100%;
 }
 
 .post-box{
@@ -177,4 +178,15 @@ a:hover{
 #register-modal .modal-body button{
     margin-top: 10px;
     width: 100%;
+}
+
+.make-post{
+    padding-right: 20px;    
+}
+.make-post li{
+    margin-bottom: 10px;
+}
+.make-post button{
+    font-size: 20px;
+    width: 100px;    
 }

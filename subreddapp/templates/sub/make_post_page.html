@@ -1,0 +1,26 @@
+{% extends 'sub/base.html' %}
+
+{% block content %}    
+    <div class="make-post">
+        <form action="/make_post/" method="POST" class="form-group makepost-form"> 
+        {% csrf_token %}
+        <ul> 
+            <li>                  
+                <label>Title:</label>
+                <input class="form-control" id="title" type="text" name="title">
+            </li>
+            <li>
+                <label>Adress Link:</label>
+                <input class="form-control" id="link" type="text" name="link_adress" >
+            </li>
+            <li>
+                <label>Text:</label>
+                <textarea class="form-control talk-tome" rows="5" name="text"></textarea>
+            </li>
+            <li>
+                <button class="btn btn-danger btn-sm" type="submit">Send</button>
+            </li>
+        </ul>
+        </form>    
+    </div>
+{% endblock %}

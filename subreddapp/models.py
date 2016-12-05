@@ -30,22 +30,27 @@ class PostParent(models.Model):
         return self.title
 
 class Post(PostParent):
-    username = models.ForeignKey('UserProfile', related_name="user_mainposts")
+    user = models.ForeignKey(User, related_name="user_mainposts")
     link_adress = models.CharField(max_length=200)
     title =  models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True)
+
+    def save_it(self):
+        self.published_date = timezone.now()
+        self.slug = slugify(self.title)
+        self.save() 
     
 class Comment(PostParent):
-    username = models.ForeignKey('UserProfile', related_name="user_comments")
+    user = models.ForeignKey(User, related_name="user_comments")
     parent_post = models.ForeignKey('Post',related_name="post_comments")
     parent_comment = models.ForeignKey('Comment',related_name="reply_comments",blank=True,null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.text
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    register_date = models.DateTimeField(default=timezone.now);
+    register_date = models.DateTimeField(default=timezone.now)
 
     def __unicode__(self):
         return self.user.username;

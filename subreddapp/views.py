@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from django.utils import timezone
 from django.db.models import Count
 from django.http import HttpResponse,JsonResponse,Http404
@@ -7,12 +7,12 @@ from django.template import TemplateDoesNotExist
 from django.contrib.auth import authenticate,login,logout
 
 from .models import Post,Comment
-from .forms import CommentForm,UserForm,UserProfileForm
+from .forms import CommentForm,UserForm,UserProfileForm,PostForm
 
 # Create your views here.
 def main_page(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('published_date')   
-    return render(request, 'sub/main_page.html', {'posts':posts, 'form':UserForm()})
+    return render(request, 'sub/main_page.html', {'posts':posts})
 
 def main_page_news(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-published_date')   
@@ -25,6 +25,15 @@ def main_page_tops(request):
 def main_page_hots(request):
     posts = Post.objects.annotate(comment_counts = Count('post_comments')).order_by('-comment_counts')   
     return render(request, 'sub/main_page.html', {'posts':posts, 'basehtml':'sub/base_ajax.html'})
+
+def comments_page(request, pk, slug):
+    post = get_object_or_404(Post, pk=pk)
+    comment_count = post.post_comments.count()
+    comments = post.post_comments.prefetch_related('reply_comments').filter(parent_comment__isnull=True).order_by('-published_date')
+    return render(request, 'sub/comments_page.html', {'post':post,'comments':comments, 'comment_count':comment_count})
+
+def make_post_page(request):
+    return render(request, 'sub/make_post_page.html')
 
 def login_view(request):
     logged=False;
@@ -74,12 +83,16 @@ def get_template(request, template_name):
     except TemplateDoesNotExist:
         return Http404
 
+def make_post(request):
+    if request.method == 'POST':
+        post_form = PostForm(data=request.POST)
+        if post_form.is_valid():
+            post = post_form.save(commit=False)
+            post.user = request.user
+            post.save_it()
+            return redirect('comments_page', pk=post.pk, slug=post.slug)
 
-def comments_page(request, pk, slug):
-    post = get_object_or_404(Post, pk=pk)
-    comment_count = post.post_comments.count()
-    comments = post.post_comments.prefetch_related('reply_comments').filter(parent_comment__isnull=True).order_by('-published_date')
-    return render(request, 'sub/comments_page.html', {'post':post,'comments':comments, 'comment_count':comment_count})
+    return render(request, 'sub/make_post_page.html')
 
 def make_comment(request):    
     if request.method == 'POST':
@@ -94,11 +107,11 @@ def make_comment(request):
 
         comm = Comment(text = text, parent_post = Post.objects.get(pk = parentpost_id), 
                                     parent_comment = parent_comment,
-                                    username= request.user, published_date = timezone.now())
+                                    user= request.user, published_date = timezone.now())
         comm.save()
         return render(request, 'sub/comment_box.html',{'comment':comm})
 
-    return HttpResponse("nope_no_return")
+    return Http404
 
 def give_point(request):
     if request.method == 'GET':
